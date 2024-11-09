@@ -48,6 +48,7 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_simulation
 set_global_assignment -name STATE_MACHINE_PROCESSING "MINIMAL BITS"
 
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/upsample_plus_csc.sv
 set_global_assignment -name SOURCE_FILE ../rtl/VGA_param.h
 set_global_assignment -name SOURCE_FILE ../rtl/M1_param.h
 set_global_assignment -name SOURCE_FILE ../rtl/define_state.h

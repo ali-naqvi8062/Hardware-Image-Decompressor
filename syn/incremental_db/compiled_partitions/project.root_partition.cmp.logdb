@@ -1,0 +1,10 @@
+v1
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult2|mult_6dt:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult1|mult_6dt:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult0|mult_ddt:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult2|mult_6dt:auto_generated|mac_out4,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult0|mult_ddt:auto_generated|mac_out4,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,upsample_plus_csc:M1_unit|lpm_mult:Mult1|mult_6dt:auto_generated|mac_out4,
+PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,upsample_plus_csc:M1_unit|lpm_mult:Mult2|mult_6dt:auto_generated|mac_mult3,
+PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,upsample_plus_csc:M1_unit|lpm_mult:Mult1|mult_6dt:auto_generated|mac_mult3,
+PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,upsample_plus_csc:M1_unit|lpm_mult:Mult0|mult_ddt:auto_generated|mac_mult3,

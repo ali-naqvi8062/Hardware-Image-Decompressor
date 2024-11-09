@@ -1,0 +1,73 @@
+
+State Machine - |project|top_state
+Name top_state.state_bit_2 top_state.state_bit_1 top_state.state_bit_0 
+top_state.S_IDLE 0 0 0 
+top_state.S_UART_RX 0 0 1 
+top_state.S_Milestone_1 0 1 1 
+top_state.S_Milestone_2 1 1 0 
+top_state.S_Milestone_3 0 1 0 
+
+State Machine - |project|upsample_plus_csc:M1_unit|state
+Name state.state_bit_4 state.state_bit_3 state.state_bit_2 state.state_bit_1 state.state_bit_0 
+state.S_M1_IDLE 0 0 0 0 0 
+state.S_LEAD_IN_0 0 0 0 1 0 
+state.S_LEAD_IN_1 0 0 1 1 0 
+state.S_LEAD_IN_2 0 0 1 0 0 
+state.S_LEAD_IN_3 0 1 0 0 0 
+state.S_LEAD_IN_4 0 1 0 1 0 
+state.S_LEAD_IN_5 0 1 1 0 0 
+state.S_LEAD_IN_6 0 1 1 1 0 
+state.S_LEAD_IN_7 1 0 0 0 0 
+state.S_LEAD_IN_8 1 0 0 1 0 
+state.S_LEAD_IN_9 1 0 1 0 0 
+state.S_LEAD_IN_10 1 0 1 1 0 
+state.S_COMMON_STATE_0 1 1 0 0 0 
+state.S_COMMON_STATE_1 1 1 0 1 0 
+state.S_COMMON_STATE_2 1 1 1 0 0 
+state.S_COMMON_STATE_3 1 1 1 1 0 
+state.S_COMMON_STATE_4 0 0 0 0 1 
+state.S_COMMON_STATE_5 0 0 0 1 1 
+state.S_COMMON_STATE_6 0 0 1 0 1 
+state.S_LEAD_OUT_0 0 0 1 1 1 
+state.S_LEAD_OUT_1 0 1 0 1 1 
+state.S_LEAD_OUT_2 0 1 1 0 1 
+state.S_LEAD_OUT_3 0 1 1 1 1 
+state.S_LEAD_OUT_4 1 0 0 0 1 
+state.S_LEAD_OUT_5 1 0 0 1 1 
+state.S_LEAD_OUT_6 0 1 0 0 1 
+
+State Machine - |project|upsample_plus_csc:M1_unit|RGB_select
+Name RGB_select.state_bit_1 RGB_select.state_bit_0 
+RGB_select.EVEN_PAIR 0 0 
+RGB_select.COMB_PAIR 0 1 
+RGB_select.ODD_PAIR 1 0 
+
+State Machine - |project|UART_SRAM_interface:UART_unit|UART_SRAM_state
+Name UART_SRAM_state.state_bit_2 UART_SRAM_state.state_bit_1 UART_SRAM_state.state_bit_0 
+UART_SRAM_state.S_US_IDLE 0 0 0 
+UART_SRAM_state.S_US_STRIP_FILE_HEADER_1 0 1 0 
+UART_SRAM_state.S_US_STRIP_FILE_HEADER_2 1 1 0 
+UART_SRAM_state.S_US_START_FIRST_BYTE_RECEIVE 1 0 0 
+UART_SRAM_state.S_US_WRITE_FIRST_BYTE 1 0 1 
+UART_SRAM_state.S_US_START_SECOND_BYTE_RECEIVE 1 1 1 
+UART_SRAM_state.S_US_WRITE_SECOND_BYTE 0 0 1 
+
+State Machine - |project|UART_SRAM_interface:UART_unit|UART_receive_controller:UART_RX|RXC_state
+Name RXC_state.state_bit_1 RXC_state.state_bit_0 
+RXC_state.S_RXC_IDLE 0 0 
+RXC_state.S_RXC_SYNC 0 1 
+RXC_state.S_RXC_ASSEMBLE_DATA 1 0 
+RXC_state.S_RXC_STOP_BIT 1 1 
+
+State Machine - |project|VGA_SRAM_interface:VGA_unit|VGA_SRAM_state
+Name VGA_SRAM_state.state_bit_3 VGA_SRAM_state.state_bit_2 VGA_SRAM_state.state_bit_1 VGA_SRAM_state.state_bit_0 
+VGA_SRAM_state.S_VS_WAIT_NEW_PIXEL_ROW 0 0 0 0 
+VGA_SRAM_state.S_VS_NEW_PIXEL_ROW_DELAY_1 1 0 0 0 
+VGA_SRAM_state.S_VS_NEW_PIXEL_ROW_DELAY_2 1 0 0 1 
+VGA_SRAM_state.S_VS_NEW_PIXEL_ROW_DELAY_3 0 0 0 1 
+VGA_SRAM_state.S_VS_NEW_PIXEL_ROW_DELAY_4 0 0 1 0 
+VGA_SRAM_state.S_VS_NEW_PIXEL_ROW_DELAY_5 1 0 1 0 
+VGA_SRAM_state.S_VS_FETCH_PIXEL_DATA_0 0 0 1 1 
+VGA_SRAM_state.S_VS_FETCH_PIXEL_DATA_1 1 0 1 1 
+VGA_SRAM_state.S_VS_FETCH_PIXEL_DATA_2 1 1 0 0 
+VGA_SRAM_state.S_VS_FETCH_PIXEL_DATA_3 0 1 0 0 
