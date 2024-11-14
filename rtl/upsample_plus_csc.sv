@@ -10,12 +10,12 @@
 module upsample_plus_csc (
 
 		input logic 			CLOCK_50, 
-		input logic				Resetn, 
-		input logic [15:0] 	SRAM_read_data,
+		input logic			Resetn, 
+		input logic [15:0] 		SRAM_read_data,
 		input logic 			Start,
 		
-		output logic [17:0]	SRAM_address,
-		output logic [15:0]	SRAM_write_data,
+		output logic [17:0]		SRAM_address,
+		output logic [15:0]		SRAM_write_data,
 		output logic 			SRAM_we_n,	
 		output logic			Done
 		
@@ -128,6 +128,7 @@ always_ff @(posedge CLOCK_50 or negedge Resetn) begin
 		case (state)
 			S_M1_IDLE: begin
 				SRAM_we_n <= 1'b1;
+				Done <= 1'b0;
 				if(Start) begin
 					SRAM_address <= Y_BASE_ADR+Y_Counter;
 					Y_Counter <= Y_Counter + 1'd1;
@@ -717,6 +718,8 @@ always_ff @(posedge CLOCK_50 or negedge Resetn) begin
 					Done <= 1'b1;
 					Y_Counter <= 18'd0;
 					UV_Counter <= 18'd0;
+					RGB_Counter <= 18'd0;
+					state <= S_M1_IDLE; 
 				end		
 		
 			end
