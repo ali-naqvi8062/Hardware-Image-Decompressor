@@ -68,6 +68,16 @@ typedef enum logic [0:4] {
 	S_LEAD_OUT_6
 } M1_state_type;
 
+typedef enum logic [2:0] {
+	S_M2_IDLE,			// idle
+	S_FETCH_SP, 	// lead in 0
+	S_COMPUTE_T, 	// lead in 1
+	S_COMMON_0,		// CS AND FS
+	S_COMMON_1,		// WS AND CT
+	S_COMPUTE_S, 	// lead out 0 
+	S_WRITE_S 		// lead out 1
+} M2_state_type;
+
 parameter 
    VIEW_AREA_LEFT = 160,
    VIEW_AREA_RIGHT = 480,

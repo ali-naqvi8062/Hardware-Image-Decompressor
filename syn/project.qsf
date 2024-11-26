@@ -48,7 +48,16 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda
 set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_simulation
 set_global_assignment -name STATE_MACHINE_PROCESSING "MINIMAL BITS"
 
-set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/upsample_plus_csc.sv
+set_global_assignment -name SOURCE_FILE ../rtl/M3_param.h
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/milestone3.sv
+set_global_assignment -name SOURCE_FILE ../rtl/M2_param.h
+set_global_assignment -name MIF_FILE ../rtl/RAM_init.mif
+set_global_assignment -name VERILOG_FILE ../rtl/dual_port_RAM.v
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/milestone2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/m2_write.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/m2_fs.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/m2_ct.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ../rtl/m2_cs.sv
 set_global_assignment -name SOURCE_FILE ../rtl/VGA_param.h
 set_global_assignment -name SOURCE_FILE ../rtl/M1_param.h
 set_global_assignment -name SOURCE_FILE ../rtl/define_state.h

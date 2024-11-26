@@ -25,26 +25,28 @@ add your own.
 `include "../rtl/define_state.h"
 `include "../rtl/VGA_param.h"
 `include "../rtl/M1_param.h"
+`include "../rtl/M2_param.h"
+`include "../rtl/M3_param.h"
 
 `define FEOF 32'hFFFFFFFF
 `define MAX_MISMATCHES 10
 
 // file for output
 // this is only useful if decoding is done all the way through
-`define OUTPUT_FILE_NAME "../data/panda_tb.ppm"
+`define OUTPUT_FILE_NAME "../data/cat_tb.ppm"
 
 // file for comparison
 // to test milestone 2 independently, use the .sram_d1 file to check the output
-`define VERIFICATION_FILE_NAME "../sw/panda.sram_d0"
+`define VERIFICATION_FILE_NAME "../sw/cat.sram_d0"
 
 // input file for milestone 1
-`define INPUT_FILE_NAME "../sw/panda.sram_d1"
+//`define INPUT_FILE_NAME "../sw/panda.sram_d1"
 
 // input file for milestone 2
-//`define INPUT_FILE_NAME "../data/motorcycle.sram_d2"
+//`define INPUT_FILE_NAME "../sw/cat.sram_d2"
 
 // input file for milestone 3 (full project)
-//`define INPUT_FILE_NAME "../data/motorcycle.mic18"
+`define INPUT_FILE_NAME "../sw/cat.mic18"
 
 
 // the top module of the testbench
@@ -151,7 +153,7 @@ module TB;
 
 		$write("Opening file \"%s\" for initializing SRAM\n\n", `INPUT_FILE_NAME);
 		file_ptr = $fopen(`INPUT_FILE_NAME, "rb");
-		for (i=0; i<262144; i=i+1) begin
+		for (i=76800; i<262144; i=i+1) begin
 			file_data = $fgetc(file_ptr);
 			buffer[15:8] = file_data & 8'hFF;
 			file_data = $fgetc(file_ptr);
@@ -162,13 +164,13 @@ module TB;
 
 		$write("Opening file \"%s\" to get SRAM verification data\n\n", `VERIFICATION_FILE_NAME);
 		file_ptr = $fopen(`VERIFICATION_FILE_NAME, "rb");
-		for (i=0; i<262144; i=i+1) begin
-			file_data = $fgetc(file_ptr);
-			buffer[15:8] = file_data & 8'hFF;
-			file_data = $fgetc(file_ptr);
-			buffer[7:0] = file_data & 8'hFF;
-			SRAM_ARRAY[i] = buffer;
-			SRAM_ARRAY_write_count[i] = 0;
+		for (i=0; i<262144; i=i+1) begin // originally 0 to 262144
+				file_data = $fgetc(file_ptr);
+				buffer[15:8] = file_data & 8'hFF;
+				file_data = $fgetc(file_ptr);
+				buffer[7:0] = file_data & 8'hFF;
+				SRAM_ARRAY[i] = buffer;
+				SRAM_ARRAY_write_count[i] = 0;
 		end
 		$fclose(file_ptr);
 
@@ -188,7 +190,7 @@ module TB;
 		num_unwritten_locations = 0;
 		//NOTE: this is for milestone 1, in different milestones we will be
 		//writing to different regions so modify as needed
-		for (i=146944; i<262144; i=i+1) begin
+		for (i=0; i<76800; i=i+1) begin //adjust to sram write locations
 			if (SRAM_ARRAY_write_count[i]==0) begin
 				if (num_unwritten_locations < `MAX_MISMATCHES) begin
 					$write("error: did not write to location %d (%x hex)\n", i, i);
@@ -281,9 +283,9 @@ module TB;
 						 // (assuming names from experiment4 from lab 5)
 
 			// IMPORTANT: this is the "no write" memory region for milestone 1, change region for different milestones
-			if (UUT.SRAM_address < 146944) begin
+			if (UUT.SRAM_address >76799 || UUT.SRAM_address > 230399) begin
 				if (warn_writing_out_of_region < `MAX_MISMATCHES) begin
-					$write("critical warning: writing outside of the RGB data region, may corrupt source data in SRAM\n");
+					$write("critical warning: writing outside of the YUV data region, may corrupt source data in SRAM\n");
 					$write("  writing value %d (%x hex) to location %d (%x hex), sim time %t\n",
 						UUT.SRAM_write_data, UUT.SRAM_write_data, UUT.SRAM_address, UUT.SRAM_address, $realtime);
 					warn_writing_out_of_region = warn_writing_out_of_region + 1;
@@ -294,7 +296,8 @@ module TB;
 				$write("error: wrote value %d (%x hex) to location %d (%x hex), should be value %d (%x hex)\n",
 					UUT.SRAM_write_data, UUT.SRAM_write_data, UUT.SRAM_address, UUT.SRAM_address,
 					SRAM_ARRAY[UUT.SRAM_address], SRAM_ARRAY[UUT.SRAM_address]);
-				$write("sim time %t: state: %s write pair: %s y_counter: %d\n", $realtime, UUT.M1_unit.state, UUT.M1_unit.RGB_select, UUT.M1_unit.Y_Counter);
+					$write("Base Address: %d, state: %s, DPRAM address: %d\n", UUT.M2_unit.M3_unit.Base_address, UUT.M2_unit.M3_unit.state, UUT.M2_unit.M3_unit.address_M3);
+				//$write("sim time %t: state: %s write pair: %s y_counter: %d\n", $realtime, UUT.M1_unit.state, UUT.M1_unit.RGB_select, UUT.M1_unit.Y_Counter);
 				// assuming your milestone 1 instance is called "m1" and its state is called "state"
 				// $write("m1 state %d\n", UUT.m1.state);
 				$write("... or take a look at the last few clock cycles in the waveforms that lead up to this error\n");

@@ -18,22 +18,25 @@ has been done in the project and the R/G/B data is displayed on the screen.
 
 `include "../rtl/define_state.h"
 `include "../rtl/VGA_param.h"
+`include "../rtl/M1_param.h"
+`include "../rtl/M2_param.h"
+`include "../rtl/M3_param.h"
 
 `define FEOF 32'hFFFFFFFF
 `define MAX_MISMATCHES 10
 
 // file for output
-`define OUTPUT_FILE_NAME "../data/motorcycle_tb.ppm"
+`define OUTPUT_FILE_NAME "../data/panda_tb.ppm"
 
 // file for comparison
 // (adapt depending on how you have out PPM file from the SW model)
-`define COMPARE_FILE_NAME "../data/motorcycle_sw.ppm"
+`define COMPARE_FILE_NAME "../sw/pandaOut.ppm"
 
 // input file for milestone 1
-`define INPUT_FILE_NAME "../data/motorcycle.sram_d1"
+//`define INPUT_FILE_NAME "../data/motorcycle.sram_d1"
 
 // input file for milestone 2
-//`define INPUT_FILE_NAME "../data/motorcycle.sram_d2"
+`define INPUT_FILE_NAME "../sw/panda.mic18"
 
 // input file for milestone 3 (full project)
 //`define INPUT_FILE_NAME "../data/motorcycle.mic18"
@@ -197,7 +200,7 @@ module TB;
 		$write("Opening file \"%s\" for initializing SRAM\n\n", `INPUT_FILE_NAME);
 		uart_file = $fopen(`INPUT_FILE_NAME, "rb");
 		file_data = $fgetc(uart_file);
-		i = 0;
+		i = 76800; //0 for m1 and m2
 		while (file_data != `FEOF) begin
 			buffer[15:8] = file_data & 8'hFF;
 			file_data = $fgetc(uart_file);

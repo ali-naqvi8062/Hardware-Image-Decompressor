@@ -1,3 +1,10 @@
+/*
+Copyright by Henry Ko and Nicola Nicolici
+Department of Electrical and Computer Engineering
+McMaster University
+Ontario, Canada
+*/
+
 `timescale 1ns/100ps
 `ifndef DISABLE_DEFAULT_NET
 `default_nettype none
@@ -5,9 +12,8 @@
 
 `include "define_state.h"
 
-// This is the top module
-// It connects the UART, SRAM and VGA together.
-// It gives access to the SRAM for UART and VGA
+// Connects the UART, SRAM and VGA together.
+// Gives access to the SRAM for UART and VGA
 module project (
 		/////// board clocks                      ////////////
 		input logic CLOCK_50_I,                   // 50 MHz clock
@@ -82,11 +88,11 @@ assign UART_TX_O = 1'b1;
 assign resetn = ~SWITCH_I[17] && SRAM_ready;
 
 // For M1
-logic 			M1_enable;
-logic [17:0] 	M1_SRAM_address;
-logic [15:0] 	M1_SRAM_write_data;
-logic 			M1_SRAM_we_n;
-logic 			M1_done;
+logic 			M1_enable, M2_enable;
+logic [17:0] 	M1_SRAM_address, M2_SRAM_address;
+logic [15:0] 	M1_SRAM_write_data, M2_SRAM_write_data;
+logic 			M1_SRAM_we_n, M2_SRAM_we_n;
+logic 			M1_done, M2_done;
 
 // Push Button unit
 PB_controller PB_unit (
@@ -153,7 +159,7 @@ SRAM_controller SRAM_unit (
 	.SRAM_OE_N_O(SRAM_OE_N_O)
 );
 
-upsample_plus_csc M1_unit (
+milestone1 M1_unit (
 	.CLOCK_50(CLOCK_50_I),
 	.Resetn(~SWITCH_I[17]),
 	.SRAM_read_data(SRAM_read_data),
@@ -162,6 +168,17 @@ upsample_plus_csc M1_unit (
 	.SRAM_write_data(M1_SRAM_write_data),
 	.SRAM_we_n(M1_SRAM_we_n),
 	.Done(M1_done)
+);
+
+milestone2 M2_unit (
+	.CLOCK_50(CLOCK_50_I),
+	.Resetn(~SWITCH_I[17]),
+	.SRAM_read_data(SRAM_read_data),
+	.Start(M2_enable),
+	.SRAM_address(M2_SRAM_address),
+	.SRAM_write_data(M2_SRAM_write_data),
+	.SRAM_we_n(M2_SRAM_we_n),
+	.Done(M2_done)
 );
 
 assign SRAM_ADDRESS_O[19:18] = 2'b00;
@@ -218,11 +235,17 @@ always @(posedge CLOCK_50_I or negedge resetn) begin
 		
 		S_Milestone_3: begin
 			top_state <= S_Milestone_2;
+			M2_enable <= 1'b1;
+			//top_state <= S_IDLE; // for testing m3 mic18 sram loading
 		end
 
 		S_Milestone_2: begin
-			M1_enable <= 1'b1;
-			top_state <= S_Milestone_1;
+			if(M2_done) begin
+				M1_enable <= 1'b1;
+				M2_enable <= 1'b0;
+				top_state <= S_Milestone_1;
+				//top_state <= S_IDLE;
+			end
 		end
 
 		S_Milestone_1: begin
@@ -255,6 +278,10 @@ always_comb begin
 		SRAM_address = M1_SRAM_address;
 		SRAM_write_data = M1_SRAM_write_data;
 		SRAM_we_n = M1_SRAM_we_n;		
+	end else if (top_state == S_Milestone_2) begin
+		SRAM_address = M2_SRAM_address;
+		SRAM_write_data = M2_SRAM_write_data;
+		SRAM_we_n = M2_SRAM_we_n;		
 	end else begin
 		SRAM_address = VGA_SRAM_address;
 		SRAM_write_data = 16'd0;

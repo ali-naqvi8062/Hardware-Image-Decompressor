@@ -1,3 +1,12 @@
+/*
+Copyright by Henry Ko and Nicola Nicolici
+Department of Electrical and Computer Engineering
+McMaster University
+Ontario, Canada
+*/
+
+`ifndef M1_PARAM
+
 parameter	Y_BASE_ADR = 1'b0;
 parameter 	U_BASE_ADR = 16'd38400;
 parameter 	V_BASE_ADR = 16'd57600;
@@ -18,4 +27,5 @@ parameter	RGB_MATRIX_D = 32'd53281;
 parameter	RGB_MATRIX_E = 32'd132251;
 parameter	RGB_DIV_SHIFT = 32'd16;
 
-
+`define M1_PARAM 1
+`endif
